@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영어식 사고 실험실 — English Thinking Lab</title>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --surface-2: #f3f1ea;
+      --text: #1f1e1c;
+      --text-2: #595751;
+      --text-3: #8a877f;
+      --border: rgba(0, 0, 0, 0.1);
+      --border-2: rgba(0, 0, 0, 0.18);
+      --accent: #1f1e1c;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1a;
+        --surface: #26262320;
+        --surface-2: #2c2c2a;
+        --text: #f0efe9;
+        --text-2: #b8b6ad;
+        --text-3: #87857d;
+        --border: rgba(255, 255, 255, 0.12);
+        --border-2: rgba(255, 255, 255, 0.22);
+        --accent: #f0efe9;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 1.5rem;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 0 0 .4rem;
+      letter-spacing: -.01em;
+    }
+
+    .header .sub {
+      font-size: 14px;
+      color: var(--text-3);
+      line-height: 1.6;
+    }
+
+    .intro {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0 1.75rem;
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      padding: .8rem 1.1rem;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
+
+    .tab:hover {
+      color: var(--text-2);
+    }
+
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab .tab-sub {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-3);
+      margin-top: 2px;
+    }
+
+    .tab.active .tab-sub {
+      color: var(--text-2);
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 16px;
+      border: 1px solid var(--border-2);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn:hover {
+      background: var(--surface-2);
+      border-color: var(--text-3);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-3);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin: 1.75rem 0 .7rem;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1.4rem;
+      margin-bottom: .85rem;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: transparent;
+    }
+
+    .card:hover {
+      border-color: var(--border-2);
+      background: var(--surface-2);
+    }
+
+    .card.open {
+      border-color: var(--border-2);
+      background: var(--surface-2);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tag-purple {
+      background: #EEEDFE;
+      color: #3C3489;
+    }
+
+    .tag-teal {
+      background: #E1F5EE;
+      color: #0F6E56;
+    }
+
+    .tag-amber {
+      background: #FAEEDA;
+      color: #854F0B;
+    }
+
+    .tag-coral {
+      background: #FAECE7;
+      color: #993C1D;
+    }
+
+    .tag-blue {
+      background: #E6F1FB;
+      color: #0C447C;
+    }
+
+    .tag-pink {
+      background: #FBEAF0;
+      color: #72243E;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tag-purple {
+        background: #26215C;
+        color: #AFA9EC;
+      }
+
+      .tag-teal {
+        background: #04342C;
+        color: #5DCAA5;
+      }
+
+      .tag-amber {
+        background: #412402;
+        color: #EF9F27;
+      }
+
+      .tag-coral {
+        background: #4A1B0C;
+        color: #F0997B;
+      }
+
+      .tag-blue {
+        background: #042C53;
+        color: #85B7EB;
+      }
+
+      .tag-pink {
+        background: #4B1528;
+        color: #ED93B1;
+      }
+    }
+
+    .card-title {
+      font-size: 15.5px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .chevron {
+      margin-left: auto;
+      font-size: 18px;
+      color: var(--text-3);
+      transition: transform .2s;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+
+    .card.open .chevron {
+      transform: rotate(90deg);
+    }
+
+    .card-body {
+      margin-top: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, margin-top .35s ease, padding-top .35s ease;
+      border-top: 1px solid transparent;
+      padding-top: 0;
+    }
+
+    .card.open .card-body {
+      max-height: 1800px;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .card-body p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin: 0 0 .6rem;
+    }
+
+    .card-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .quote {
+      font-style: italic;
+      border-left: 3px solid var(--border-2);
+      padding-left: .9rem;
+      margin: .8rem 0;
+      color: var(--text-2);
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+
+    .example {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      margin: .8rem 0;
+      font-size: 13.5px;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    .example strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-3);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>영어식 사고 실험실</h1>
+      <div class="sub">English Thinking Lab — 영어를 말하기 전에, 생각을 짧고 명료하게 세우는 훈련장</div>
+    </div>
+
+    <div class="intro">
+      이 사이트는 영어를 단순히 외국어로 말하기 위한 공간이 아니라, <strong>영어가 요구하는 명시성·순서·논리 구조</strong>를 이용해 생각을 더 선명하게 정리하는 훈련장이다. 목표는 원어민처럼 꾸미는 것이 아니라, 주어를 세우고, 동사를 고르고, 결론과 이유를 분리하고, 짧은 문장으로 사고를 작동시키는 것이다.
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('thinking', this)">
+        사고법<span class="tab-sub">Thinking</span>
+      </button>
+      <button class="tab" onclick="switchTab('sentence', this)">
+        문장 구조<span class="tab-sub">Sentence</span>
+      </button>
+      <button class="tab" onclick="switchTab('speaking', this)">
+        말하기 패턴<span class="tab-sub">Speaking</span>
+      </button>
+      <button class="tab" onclick="switchTab('expression', this)">
+        표현 카드<span class="tab-sub">Phrases</span>
+      </button>
+      <button class="tab" onclick="switchTab('situation', this)">
+        상황 카드<span class="tab-sub">Situations</span>
+      </button>
+      <button class="tab" onclick="switchTab('routine', this)">
+        훈련 루틴<span class="tab-sub">Practice</span>
+      </button>
+    </div>
+
+    <div class="controls">
+      <button class="btn" onclick="setAll(true)">전체 펼치기</button>
+      <button class="btn" onclick="setAll(false)">전체 닫기</button>
+      <a class="btn" href="index.html" style="text-decoration: none; display: inline-block;">홈</a>
+      <a class="btn" href="thinking.html" style="text-decoration: none; display: inline-block;">사고법 아카이브</a>
+    </div>
+
+    <!-- ===== 사고법 ===== -->
+    <div class="panel active" id="panel-thinking">
+
+      <div class="section-label">영어식 사고의 핵심</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">전제</span>
+          <span class="card-title">영어식 사고는 영어를 잘하는 기술이 아니라, 생각을 선명하게 배열하는 기술이다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어식 사고를 단순히 영어 문장을 빠르게 말하는 능력으로 보면 핵심을 놓치기 쉽다. 더 중요한 것은 생각을 어떤 순서로 놓을 것인가다. 영어는 보통 주어를 세우고, 동사를 통해 행동이나 상태를 분명히 밝히며, 뒤에서 이유·조건·대조를 붙여 나간다.</p>
+          <p>이 방식은 생각을 흐릿한 감정 덩어리로 두지 않고, “누가 무엇을 한다”, “무엇이 무엇이다”, “왜 그런가”, “그래서 무엇인가”로 나누게 만든다. 그래서 영어를 배우는 과정은 동시에 생각을 정리하는 훈련이 될 수 있다.</p>
+          <div class="quote">영어식 사고의 핵심은 영어 단어가 아니라, 생각을 주어·동사·이유·결론으로 정렬하는 습관이다.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">명시성</span>
+          <span class="card-title">영어는 생각의 뼈대를 밖으로 꺼내게 만든다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>한국어는 맥락, 생략, 말끝, 분위기를 통해 많은 것을 전달할 수 있다. 반면 영어는 주어와 동사, 원인과 결과, 조건과 대조를 비교적 명시적으로 드러내야 자연스럽다. 이 차이는 어느 언어가 더 우월하다는 뜻이 아니라, 사고를 드러내는 방식이 다르다는 뜻이다.</p>
+          <p>영어로 말하려면 “그냥 좀 애매해”에서 멈출 수 없다. 무엇이 애매한지, 왜 애매한지, 그래서 무엇이 필요한지를 분리해야 한다. 이 과정에서 생각의 뼈대가 바깥으로 드러난다.</p>
+          <div class="example"><strong>흐린 느낌:</strong> 뭔가 애매하다.<br><strong>영어식 분해:</strong> The goal is unclear. I do not see the main reason. So we need a clearer example.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">목표</span>
+          <span class="card-title">목표는 유창함보다 명료함이다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>유창함은 속도와 익숙함의 문제다. 명료함은 구조의 문제다. 처음부터 원어민처럼 빠르고 자연스럽게 말하려 하면 부담이 커지고, 생각은 오히려 흐려진다. 먼저 필요한 것은 느리더라도 짧고 정확한 문장을 만드는 능력이다.</p>
+          <p>“I think…”, “The problem is…”, “Because…”, “So…” 같은 단순한 틀을 반복하면 말은 조금 느려도 생각의 방향은 분명해진다. 영어식 사고의 첫 목표는 멋진 표현이 아니라 흔들리지 않는 문장 뼈대다.</p>
+          <div class="quote">유창한 영어보다 먼저 필요한 것은 짧은 영어다. 짧은 문장은 생각의 윤곽을 드러낸다.</div>
+        </div>
+      </div>
+
+      <div class="section-label">사고의 기본 동작</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">주어</span>
+          <span class="card-title">먼저 주어를 세운다 — 누가, 무엇이 문제인가</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>한국어에서는 주어를 생략해도 자연스러운 경우가 많지만, 영어에서는 주어가 문장의 중심이다. 주어를 세우는 훈련은 곧 생각의 초점을 정하는 훈련이다. “별로다”라고 느꼈다면, 무엇이 별로인지 먼저 잡아야 한다.</p>
+          <div class="example"><strong>막연한 감각:</strong> 별로다.<br><strong>주어 세우기:</strong> This plan is weak. / His answer is vague. / The design feels too complex.</div>
+          <p>주어를 정하면 감정이 판단으로 바뀐다. 판단이 되면 이유를 붙일 수 있고, 이유를 붙이면 대화 가능한 생각이 된다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">동사</span>
+          <span class="card-title">동사를 고르면 생각의 방향이 정해진다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어에서 동사는 문장의 엔진이다. 같은 주어라도 어떤 동사를 고르느냐에 따라 생각의 방향이 달라진다. “This is a problem.”은 상태를 말하고, “This causes a problem.”은 원인을 말하며, “This solves the problem.”은 해결을 말한다.</p>
+          <p>동사를 고르는 과정은 단어 선택 이상의 의미가 있다. 문제를 원인으로 볼 것인지, 결과로 볼 것인지, 상태로 볼 것인지, 행동으로 볼 것인지 결정하는 과정이기 때문이다.</p>
+          <div class="quote">동사는 단어가 아니라 관점이다. 어떤 동사를 고르느냐가 어떤 식으로 생각하느냐를 결정한다.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">결론</span>
+          <span class="card-title">결론을 먼저 말하고, 이유를 뒤에 붙인다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어식 설명은 대체로 결론을 먼저 두는 방식과 잘 맞는다. “I think this is useful.”라고 먼저 판단을 말한 뒤, “because it reduces confusion.”처럼 이유를 붙이면 듣는 사람은 처음부터 말의 방향을 알 수 있다.</p>
+          <p>배경을 오래 깔고 마지막에 결론을 말하면 영어 대화에서는 상대가 길을 잃을 수 있다. 먼저 핵심을 던지고, 뒤에서 보충하는 방식이 명료하다.</p>
+          <div class="example"><strong>기본 틀:</strong> I think A because B.<br><strong>예문:</strong> I think this method works because it makes the problem smaller.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">분리</span>
+          <span class="card-title">한 문장에 하나의 생각만 넣는다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어로 말할 때 막히는 이유 중 하나는 한 문장에 너무 많은 생각을 넣으려 하기 때문이다. 감정, 배경, 예외, 이유, 결론을 한 번에 담으려 하면 문장이 길어지고 구조가 무너진다.</p>
+          <p>긴 생각은 여러 개의 짧은 문장으로 나눈다. 단순해 보이지만 이 방식은 사고를 정리하는 데 강력하다. 짧은 문장을 여러 개 연결하면 복잡한 생각도 훨씬 안정적으로 전달된다.</p>
+          <div class="example"><strong>긴 생각:</strong> 이건 좋은데 아직 너무 추상적이라 바로 쓰긴 어려울 것 같아.<br><strong>세 문장:</strong> This idea is useful. But it is still too abstract. So we need one concrete example.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== 문장 구조 ===== -->
+    <div class="panel" id="panel-sentence">
+
+      <div class="section-label">기본 문장 뼈대</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">I think</span>
+          <span class="card-title">I think — 판단을 먼저 세우는 문장</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>“I think”는 단순한 초급 표현이 아니라, 자신의 판단을 문장 앞에 세우는 도구다. 생각이 복잡할 때는 먼저 “내 판단은 무엇인가?”를 정해야 한다.</p>
+          <div class="example"><strong>틀:</strong> I think + 판단.<br><strong>예문:</strong> I think this plan is too vague. / I think we need a simpler example. / I think the main idea is strong.</div>
+          <p>중요한 것은 “I think” 뒤에 완벽한 문장을 붙이는 것이 아니라, 판단의 방향을 먼저 확정하는 것이다. 그 뒤에 because, but, so를 붙이면 생각이 확장된다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">The point</span>
+          <span class="card-title">The point is — 핵심을 좁히는 문장</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>“The point is…”는 대화가 길어질 때 핵심을 다시 잡는 표현이다. 이것을 쓰면 주변 설명을 줄이고, 지금 말하고 싶은 중심으로 돌아올 수 있다.</p>
+          <div class="example"><strong>예문:</strong> The point is not speed. The point is clarity.<br><strong>예문:</strong> The point is that we need to define the problem first.</div>
+          <p>영어식 사고에서 핵심을 좁히는 능력은 중요하다. 모든 것을 말하려고 하기보다, 지금 가장 중요한 하나를 고르는 것이다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">Problem</span>
+          <span class="card-title">The problem is — 불편함을 문제로 바꾸는 문장</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>불편한 느낌을 그대로 두면 말하기 어렵다. “The problem is…”를 쓰면 감각이 문제 정의로 바뀐다. 무엇이 문제인지 문장으로 세우는 순간, 해결 방향도 보이기 시작한다.</p>
+          <div class="example"><strong>예문:</strong> The problem is that the goal is unclear.<br><strong>예문:</strong> The problem is not the idea itself. The problem is the lack of examples.</div>
+          <p>문제를 정확히 말하는 능력은 영어 학습에서도 중요하다. 모르는 단어보다 더 큰 장애물은, 자신이 무엇을 말하고 싶은지 아직 문제 형태로 잡지 못한 상태다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">Need</span>
+          <span class="card-title">We need — 판단을 행동으로 바꾸는 문장</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>“We need…”는 생각을 다음 행동으로 밀어주는 표현이다. 문제를 말하는 데서 멈추지 않고, 무엇이 필요하고 무엇을 해야 하는지까지 이어갈 수 있다.</p>
+          <div class="example"><strong>예문:</strong> We need a clearer reason.<br><strong>예문:</strong> We need to make this sentence shorter.<br><strong>예문:</strong> We need one example before we explain the theory.</div>
+          <p>영어식 명료함은 설명만 잘하는 것이 아니라 다음 행동을 보이게 만드는 데 있다.</p>
+        </div>
+      </div>
+
+      <div class="section-label">논리 연결어</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">Because</span>
+          <span class="card-title">Because — 이유를 명시하면 생각이 단단해진다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>because는 영어 문법이면서 동시에 사고 훈련 도구다. 어떤 판단을 했다면 그 판단이 왜 나왔는지 붙여야 한다. 이유를 붙일 수 없는 판단은 아직 감정에 가까울 수 있다.</p>
+          <div class="example"><strong>예문:</strong> I like this because it is simple.<br><strong>예문:</strong> I disagree because the goal is unclear.<br><strong>예문:</strong> This works because it reduces confusion.</div>
+          <div class="quote">Because는 이유 없는 판단을 그대로 두지 않게 만드는 압력이다.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">So</span>
+          <span class="card-title">So — 그래서 무엇을 할지 말한다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>so는 결과와 행동을 묻는 연결어다. “The goal is unclear.”에서 멈추지 않고 “So we need to define it first.”로 이어가면 생각이 판단에서 제안으로 이동한다.</p>
+          <div class="example"><strong>예문:</strong> This sentence is too long. So I will split it into three parts.<br><strong>예문:</strong> I do not understand the example. So I need a simpler one.</div>
+          <p>좋은 설명은 결국 다음 행동을 보이게 한다. so는 그 행동으로 가는 다리다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">But</span>
+          <span class="card-title">But — 장점과 한계를 함께 드러낸다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>but은 단순한 반박이 아니라 균형을 잡는 장치다. “This method is simple, but it may be too slow.”처럼 장점과 한계를 동시에 보여준다.</p>
+          <div class="example"><strong>예문:</strong> The idea is interesting, but it is still vague.<br><strong>예문:</strong> I agree with the direction, but I disagree with the method.</div>
+          <p>명료함은 무조건 단정하는 것이 아니다. 주장과 한계를 분리해 보여줄 때 생각은 더 정직해진다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">If</span>
+          <span class="card-title">If — 막연한 걱정을 조건으로 바꾼다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>if는 가능성을 다루는 도구다. “이거 위험한 것 같은데”라는 느낌을 “If we rush this, we may miss important details.”처럼 바꾸면 걱정이 조건과 결과로 정리된다.</p>
+          <div class="example"><strong>예문:</strong> If the sentence is too long, split it.<br><strong>예문:</strong> If the goal is unclear, define it first.<br><strong>예문:</strong> If the idea feels vague, make one example.</div>
+          <div class="quote">If는 걱정을 시나리오로 바꾼다. 시나리오가 되면 판단할 수 있다.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== 말하기 패턴 ===== -->
+    <div class="panel" id="panel-speaking">
+
+      <div class="section-label">말의 시작</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">의견</span>
+          <span class="card-title">의견 말하기 — I think / I feel / I would say</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>의견을 말할 때는 처음부터 완벽한 주장을 만들 필요가 없다. 먼저 자신의 위치를 표시하면 된다. “I think”는 판단에 가깝고, “I feel”은 감각이나 인상에 가깝다. “I would say”는 조금 더 부드러운 의견 제시다.</p>
+          <div class="example"><strong>카드:</strong><br>I think this is useful.<br>I feel this is a bit unclear.<br>I would say the first option is better.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">정리</span>
+          <span class="card-title">내가 하려는 말은 — What I mean is...</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>말하다가 꼬였을 때는 “What I mean is…”로 다시 정리할 수 있다. 이 표현은 실수를 덮는 말이 아니라, 생각을 다시 선명하게 세우는 리셋 버튼이다.</p>
+          <div class="example"><strong>카드:</strong><br>What I mean is, the idea is good, but the example is weak.<br>What I mean is, we need to make the goal clearer.</div>
+          <p>영어 말하기에서 중요한 것은 한 번도 안 꼬이는 것이 아니라, 꼬였을 때 다시 구조를 잡는 능력이다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">핵심</span>
+          <span class="card-title">핵심으로 돌아가기 — The point is...</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>대화가 길어질수록 핵심을 잃기 쉽다. “The point is…”는 말의 중심을 다시 세우는 표현이다. 회의, 설명, 토론, 혼잣말 연습에 모두 유용하다.</p>
+          <div class="example"><strong>카드:</strong><br>The point is, we need a simpler sentence.<br>The point is not grammar. The point is clarity.<br>The point is that I want to think more clearly in English.</div>
+        </div>
+      </div>
+
+      <div class="section-label">반응과 연결</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">동의</span>
+          <span class="card-title">동의하기 — That makes sense / I see your point</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>동의 표현은 “Yes”에서 끝나지 않는다. 상대의 말이 이해된다는 신호와, 어느 부분에 동의하는지를 함께 말하면 대화가 이어진다.</p>
+          <div class="example"><strong>카드:</strong><br>That makes sense.<br>I see your point.<br>I agree with the main idea.<br>That makes sense because the example is clear.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-blue">반대</span>
+          <span class="card-title">반대하기 — I disagree because...</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어로 반대할 때는 감정적 거절보다 이유 있는 차이를 말하는 것이 중요하다. “I disagree” 뒤에 because를 붙이면 반대가 공격이 아니라 판단이 된다.</p>
+          <div class="example"><strong>카드:</strong><br>I disagree because the goal is unclear.<br>I see your point, but I disagree with the conclusion.<br>I do not think this solves the real problem.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-pink">헷갈림</span>
+          <span class="card-title">헷갈린다고 말하기 — I'm confused about...</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>모르는 것을 숨기지 않고 정확히 말하는 것도 중요한 말하기 기술이다. “I don't understand.”보다 “I'm confused about the second part.”처럼 어느 부분이 헷갈리는지 말하면 대화가 생산적으로 이어진다.</p>
+          <div class="example"><strong>카드:</strong><br>I'm confused about the main point.<br>I understand the example, but I do not understand the conclusion.<br>Can you explain that in a simpler way?</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">예시</span>
+          <span class="card-title">예시 요구하기 — Can you give me an example?</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>추상적인 설명을 이해하기 어려울 때는 예시를 요구하면 된다. 영어식 사고는 추상과 구체를 오가는 능력이다. 예시를 요구하는 것은 부족함이 아니라, 이해를 정확히 하려는 행동이다.</p>
+          <div class="example"><strong>카드:</strong><br>Can you give me an example?<br>Can you make it more concrete?<br>What would that look like in real life?</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== 표현 카드 ===== -->
+    <div class="panel" id="panel-expression">
+
+      <div class="section-label">생각을 꺼내는 표현</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">이해</span>
+          <span class="card-title">That makes sense — 말이 된다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>“That makes sense”는 상대의 말이 논리적으로 이해된다는 뜻이다. 단순한 동의보다 넓게 쓸 수 있다. 완전히 찬성하지 않아도 “네 말의 구조는 이해된다”는 신호를 줄 수 있다.</p>
+          <div class="example"><strong>확장:</strong><br>That makes sense.<br>That makes sense, but I still have one concern.<br>That makes sense because the goal is clear.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">핵심</span>
+          <span class="card-title">That's not the point — 핵심은 그게 아니다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>대화가 옆길로 샐 때 쓰는 표현이다. 다만 강하게 들릴 수 있으므로 부드럽게 하려면 “I think that's not the main point.”처럼 말할 수 있다.</p>
+          <div class="example"><strong>확장:</strong><br>That's not the point.<br>I think that's not the main point.<br>The point is not speed. The point is accuracy.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">재표현</span>
+          <span class="card-title">Let me put it this way — 다르게 말해보면</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>설명이 잘 전달되지 않을 때 다시 말하는 표현이다. 영어 말하기에서 같은 생각을 다른 방식으로 말할 수 있으면 막힘이 줄어든다.</p>
+          <div class="example"><strong>확장:</strong><br>Let me put it this way.<br>Let me put it this way: the sentence is not wrong, but it is too long.<br>Let me put it more simply.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">구체화</span>
+          <span class="card-title">To be more specific — 더 구체적으로 말하면</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>추상적인 생각을 구체적인 예나 조건으로 좁힐 때 쓰는 표현이다. 영어식 사고에서 중요한 흐름은 “큰 판단 → 구체적 이유 → 예시”다.</p>
+          <div class="example"><strong>확장:</strong><br>To be more specific, the first sentence is too vague.<br>To be more specific, we need a real conversation example.<br>To be more specific, the problem is the verb.</div>
+        </div>
+      </div>
+
+      <div class="section-label">대화의 흐름을 잡는 표현</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-blue">정리</span>
+          <span class="card-title">So basically — 그러니까 기본적으로</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>상대의 말을 요약하거나 자신의 말을 정리할 때 쓸 수 있다. 너무 자주 쓰면 가벼워 보일 수 있지만, 생각을 압축하는 연습에는 유용하다.</p>
+          <div class="example"><strong>확장:</strong><br>So basically, we need to make this clearer.<br>So basically, the issue is not vocabulary. The issue is sentence structure.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-pink">조건</span>
+          <span class="card-title">It depends — 상황에 따라 다르다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>“It depends”는 애매한 답이 아니라 조건을 세우기 위한 출발점이다. 반드시 “on what?”에 답하는 식으로 이어가야 명료해진다.</p>
+          <div class="example"><strong>확장:</strong><br>It depends.<br>It depends on the goal.<br>It depends on whether we want speed or accuracy.<br>It depends on how formal the situation is.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">인정</span>
+          <span class="card-title">I see what you mean — 무슨 말인지 알겠다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>상대의 의도를 이해했다는 표현이다. 동의와는 다르다. 그래서 뒤에 but을 붙여도 자연스럽다.</p>
+          <div class="example"><strong>확장:</strong><br>I see what you mean.<br>I see what you mean, but I think the example is still weak.<br>I see what you mean. You're saying the structure matters more than vocabulary.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">반응</span>
+          <span class="card-title">That's oddly specific — 묘하게 구체적이네</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>직관적이고 순간적인 반응을 영어로 살릴 때 유용한 표현이다. 농담, 이상한 상황, 예상 밖의 디테일에 반응할 수 있다. 영어 학습은 논리만이 아니라 반응 속도와 감각도 포함한다.</p>
+          <div class="example"><strong>반응 카드:</strong><br>That's oddly specific.<br>I did not expect that.<br>That's a weird way to put it.<br>Wait, what?</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== 상황 카드 ===== -->
+    <div class="panel" id="panel-situation">
+
+      <div class="section-label">학습 상황</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">모름</span>
+          <span class="card-title">모른다고 말해야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>모른다고 말하는 것은 영어 학습에서 매우 중요한 기술이다. 단순히 “I don't know.”에서 끝내지 말고, 무엇을 모르는지 구체화하면 다음 학습으로 이어진다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>I don't know this word.<br>I don't understand the structure.<br>I understand the words, but I don't understand the meaning.<br>I need a simpler explanation.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">설명</span>
+          <span class="card-title">내 생각을 설명해야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>생각을 설명할 때는 배경을 길게 말하기보다 판단, 이유, 예시, 결론의 순서로 가는 것이 안전하다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>I think this idea is useful because it makes the problem clearer.<br>For example, we can split one long sentence into three short sentences.<br>So the main goal is clarity, not speed.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">반대</span>
+          <span class="card-title">상대 의견에 반대해야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>반대할 때는 상대 전체를 부정하기보다, 동의하는 부분과 다른 부분을 나누면 좋다. “I agree with A, but I disagree with B.”는 가장 안전한 구조다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>I agree with the goal, but I disagree with the method.<br>I see your point, but I think we need more examples.<br>I don't think this solves the real issue.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">요청</span>
+          <span class="card-title">더 쉽게 설명해 달라고 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>이해가 안 될 때는 상대에게 난이도 조절을 요청할 수 있다. 좋은 질문은 대화를 멈추게 하지 않고, 오히려 더 좋은 설명을 끌어낸다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>Can you explain it more simply?<br>Can you give me one example?<br>Can you say that in a different way?<br>Can you make it more concrete?</div>
+        </div>
+      </div>
+
+      <div class="section-label">실전 대화 상황</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-blue">잡담</span>
+          <span class="card-title">가벼운 대화를 이어가야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>잡담은 완벽한 문법보다 반응과 연결이 중요하다. 상대의 말에 짧게 반응하고, 하나의 질문을 붙이면 대화가 이어진다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>Oh, really?<br>That's interesting.<br>How did that happen?<br>What was that like?<br>I did not expect that.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-pink">유머</span>
+          <span class="card-title">이상한 상황에 즉흥적으로 반응할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어 유머 반응은 긴 농담보다 짧은 관찰에서 시작할 수 있다. 예상 밖의 상황을 포착하고, 한 문장으로 반응하는 방식이다.</p>
+          <div class="example"><strong>반응 카드:</strong><br>That escalated quickly.<br>That sounds illegal, but okay.<br>That's such a weird sentence.<br>I have many questions.<br>Somehow, that makes sense.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">정리</span>
+          <span class="card-title">상대 말을 요약해야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>요약은 영어 대화에서 매우 강력한 기술이다. 상대의 말을 자신의 문장으로 다시 말하면 이해를 확인할 수 있고, 대화의 방향도 정리된다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>So you're saying that clarity matters more than speed.<br>Let me check if I understand you correctly.<br>You mean the sentence is correct, but it sounds unnatural.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">아이디어</span>
+          <span class="card-title">아이디어를 제안해야 할 때</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>아이디어를 제안할 때는 강하게 밀어붙이기보다 가능성으로 던지면 좋다. “Maybe we can…”은 부담이 낮고, “What if…”는 실험적인 제안에 잘 어울린다.</p>
+          <div class="example"><strong>상황 카드:</strong><br>Maybe we can start with one simple example.<br>What if we make a card for each sentence pattern?<br>We could separate thinking, speaking, and expression cards.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== 훈련 루틴 ===== -->
+    <div class="panel" id="panel-routine">
+
+      <div class="section-label">매일 하는 짧은 훈련</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">3문장</span>
+          <span class="card-title">긴 생각을 3개의 짧은 영어 문장으로 자르기</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>하루에 하나의 한국어 생각을 고르고, 그것을 영어 세 문장으로 나눈다. 첫 문장은 판단, 둘째 문장은 이유나 한계, 셋째 문장은 다음 행동이다.</p>
+          <div class="example"><strong>틀:</strong><br>1. I think...<br>2. But / Because...<br>3. So...</div>
+          <div class="example"><strong>예시:</strong><br>I want to think more clearly in English.<br>But I often translate Korean sentences directly.<br>So I need to practice short English sentences first.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-teal">카드</span>
+          <span class="card-title">하루 5문장 카드 만들기</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>표현을 많이 외우려고 하기보다, 실제로 쓸 수 있는 문장 카드를 하루 5개 만든다. 각 카드는 짧아야 하고, 상황이 떠올라야 한다.</p>
+          <div class="example"><strong>카드 예시:</strong><br>I think this is too vague.<br>Can you give me an example?<br>That's not the main point.<br>Let me put it more simply.<br>I see your point, but I disagree.</div>
+          <p>중요한 것은 많은 표현을 모으는 것이 아니라, 실제 상황에서 바로 꺼낼 수 있는 작은 문장들을 축적하는 것이다.</p>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-amber">변형</span>
+          <span class="card-title">같은 생각을 세 가지 방식으로 말하기</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>하나의 생각을 여러 방식으로 말하는 훈련은 말하기 막힘을 줄인다. 단어 하나가 떠오르지 않아도 다른 길로 우회할 수 있기 때문이다.</p>
+          <div class="example"><strong>생각:</strong> 이 문장은 너무 길다.<br><strong>변형:</strong><br>This sentence is too long.<br>We need to make this sentence shorter.<br>The problem is that this sentence has too many ideas.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-coral">소리</span>
+          <span class="card-title">짧은 문장을 입에 붙을 때까지 소리 내기</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어식 사고가 말하기로 이어지려면 문장 구조가 입에 붙어야 한다. 눈으로 이해한 표현도 실제로 말하려면 속도가 느려진다. 그래서 짧은 문장을 반복해서 소리 내야 한다.</p>
+          <div class="example"><strong>반복 문장:</strong><br>I think this is useful because it is simple.<br>I agree with the goal, but I disagree with the method.<br>If the goal is unclear, define it first.</div>
+          <p>처음에는 느려도 괜찮다. 중요한 것은 문장 뼈대가 자동으로 나오게 만드는 것이다.</p>
+        </div>
+      </div>
+
+      <div class="section-label">주간 훈련</div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-blue">리뷰</span>
+          <span class="card-title">일주일에 한 번, 가장 많이 쓴 구조를 남긴다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>일주일 동안 만든 문장 중 가장 자주 쓸 것 같은 구조를 5개만 남긴다. 영어 학습은 많이 쌓는 것도 중요하지만, 실제로 사용할 수 있는 구조를 선별하는 것이 더 중요하다.</p>
+          <div class="example"><strong>리뷰 질문:</strong><br>이번 주에 가장 많이 쓸 문장은 무엇인가?<br>어떤 문장이 입에 잘 붙는가?<br>어떤 표현은 멋있지만 실제로는 잘 안 쓰는가?</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-pink">실험</span>
+          <span class="card-title">하나의 상황을 정하고 영어 반응 10개 만들기</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>영어 반응 속도를 키우려면 상황별 반응 카드를 만드는 것이 좋다. 하나의 상황을 정하고, 거기에 쓸 수 있는 짧은 반응을 10개 만든다.</p>
+          <div class="example"><strong>상황:</strong> 상대가 이상하게 구체적인 말을 했다.<br><strong>반응:</strong><br>That's oddly specific.<br>I have many questions.<br>Why do you know that?<br>That sounds suspiciously detailed.<br>Somehow, that makes sense.</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggle(this)">
+        <div class="card-header">
+          <span class="tag tag-purple">축적</span>
+          <span class="card-title">나만의 영어 카드덱으로 계속 확장한다</span>
+          <span class="chevron">›</span>
+        </div>
+        <div class="card-body">
+          <p>이 사이트의 목적은 완성된 교재가 아니라 계속 확장되는 영어 카드덱이다. 사고법 카드, 문장 구조 카드, 말하기 카드, 표현 카드, 상황 카드를 조금씩 추가하면서 자신이 실제로 쓰는 영어의 지도를 만든다.</p>
+          <p>새 카드를 추가할 때는 세 가지를 확인한다. 첫째, 실제 상황에서 쓸 수 있는가. 둘째, 문장이 짧은가. 셋째, 생각의 구조를 선명하게 만들어주는가.</p>
+          <div class="quote">좋은 영어 노트는 많은 표현을 모은 창고가 아니라, 바로 꺼내 쓸 수 있는 카드덱이다.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      이 문서는 영어를 통해 명료한 사고를 훈련하기 위한 개인 학습용 구조입니다. 핵심 원리는 주어·동사 명시, 결론 우선, because/so/but/if 연결, 짧은 문장 반복입니다.
+    </div>
+
+  </div>
+
+  <script>
+    function toggle(card) {
+      card.classList.toggle('open');
+    }
+    function setAll(open) {
+      const activePanel = document.querySelector('.panel.active');
+      if (!activePanel) return;
+      activePanel.querySelectorAll('.card').forEach(function (card) {
+        card.classList.toggle('open', open);
+      });
+    }
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + name).classList.add('active');
+      document.querySelectorAll('.card').forEach(function (card) {
+        card.classList.remove('open');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+
+</html>
